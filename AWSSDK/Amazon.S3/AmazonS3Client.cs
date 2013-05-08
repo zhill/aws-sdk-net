@@ -6698,10 +6698,11 @@ namespace Amazon.S3
             else if (parameters.ContainsKey(S3QueryParameter.DestinationBucket))
             {
                 string bucketName = parameters[S3QueryParameter.DestinationBucket];
-                if (config.CommunicationProtocol == Protocol.HTTPS && bucketName.Contains("."))
-                    url = String.Concat(url, "/", bucketName, "/");
-                else
-                    url = String.Concat(bucketName, ".", url, "/");
+                //zhill - always use path-style urls
+                //if (config.CommunicationProtocol == Protocol.HTTPS && bucketName.Contains("."))
+                url = String.Concat(url, (url.EndsWith("/") ? "" : "/"), bucketName, "/");
+                //else
+                //    url = String.Concat(bucketName, ".", url, "/");
 
                 if (parameters.ContainsKey(S3QueryParameter.Key))
                 {
